@@ -1,24 +1,33 @@
-import React from "react";
 import Announcement from "../components/Announcement";
-import Categories from "../components/Categories";
 import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import Newsletter from "../components/Newsletter";
-import Products from "../components/Products";
+import Banner from "../components/Banner";
 import Slider from "../components/Slider";
+import Navbar from "../components/Navbar";
+import ProductDisplay from "../components/ProductDisplay";
+import { useState } from "react";
 
 const Home = () => {
-  return (
-    <div>
-      <Announcement />
-      <Navbar />
-      <Slider />
-      <Categories />
-      <Products/>
-      <Newsletter/>
-      <Footer/>
-    </div>
-  );
+    const [gender, setGender] = useState('all');
+    const [searchValue, setSearchValue] = useState('');
+
+    const handleGender = (gen) => {
+        setGender(gen);
+    };
+
+    const handleSearch = (val) => {
+        setSearchValue(val);
+    };
+
+    return (
+        <div>
+            <Announcement />
+            <Banner onChange = {handleSearch} />
+            <Slider />
+            <Navbar onChange = {handleGender} />
+            <ProductDisplay option = {gender} value = {searchValue} /> {/* onChange success */}
+            <Footer />
+        </div>
+    );
 };
 
 export default Home;

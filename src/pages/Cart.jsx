@@ -1,46 +1,20 @@
-import { Add, Remove } from "@material-ui/icons";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
+import { Link } from "react-router-dom";
+import BannerCart from "../components/BannerCart";
+import CartItem from "../components/CartItem";
+import { useState, useEffect, useCallback } from "react";
+import { Redirect } from "react-router";
+import swal from "sweetalert";
+import axios from "axios";
 
 const Container = styled.div``;
 
 const Wrapper = styled.div`
   padding: 20px;
   ${mobile({ padding: "10px" })}
-`;
-
-const Title = styled.h1`
-  font-weight: 300;
-  text-align: center;
-`;
-
-const Top = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-`;
-
-const TopButton = styled.button`
-  padding: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  border: ${(props) => props.type === "filled" && "none"};
-  background-color: ${(props) =>
-    props.type === "filled" ? "black" : "transparent"};
-  color: ${(props) => props.type === "filled" && "white"};
-`;
-
-const TopTexts = styled.div`
-  ${mobile({ display: "none" })}
-`;
-const TopText = styled.span`
-  text-decoration: underline;
-  cursor: pointer;
-  margin: 0px 10px;
 `;
 
 const Bottom = styled.div`
@@ -54,65 +28,9 @@ const Info = styled.div`
   flex: 3;
 `;
 
-const Product = styled.div`
-  display: flex;
-  justify-content: space-between;
-  ${mobile({ flexDirection: "column" })}
-`;
-
-const ProductDetail = styled.div`
-  flex: 2;
-  display: flex;
-`;
-
-const Image = styled.img`
-  width: 200px;
-`;
-
-const Details = styled.div`
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-`;
-
-const ProductName = styled.span``;
-
-const ProductId = styled.span``;
-
-const ProductColor = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${(props) => props.color};
-`;
-
-const ProductSize = styled.span``;
-
-const PriceDetail = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ProductAmountContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const ProductAmount = styled.div`
-  font-size: 24px;
-  margin: 5px;
-  ${mobile({ margin: "5px 15px" })}
-`;
-
-const ProductPrice = styled.div`
-  font-size: 30px;
-  font-weight: 200;
-  ${mobile({ marginBottom: "20px" })}
+const TopTexts = styled.span`
+  cursor: pointer;
+  margin: 0px 0px;
 `;
 
 const Hr = styled.hr`
@@ -123,10 +41,10 @@ const Hr = styled.hr`
 
 const Summary = styled.div`
   flex: 1;
-  border: 0.5px solid lightgray;
+  border: 0.5px solid black;
   border-radius: 10px;
   padding: 20px;
-  height: 50vh;
+  height: 30vh;
 `;
 
 const SummaryTitle = styled.h1`
@@ -142,111 +60,100 @@ const SummaryItem = styled.div`
 `;
 
 const SummaryItemText = styled.span``;
-
 const SummaryItemPrice = styled.span``;
 
 const Button = styled.button`
   width: 100%;
+  border-radius: 10px;
+  font-size: 20px;
   padding: 10px;
-  background-color: black;
-  color: white;
-  font-weight: 600;
+  background-color: pink;
+  color: black;
+  font-weight: 900;
+  margin-bottom: 10px;
+  cursor: pointer;
 `;
 
 const Cart = () => {
-  return (
-    <Container>
-      <Navbar />
-      <Announcement />
-      <Wrapper>
-        <Title>YOUR BAG</Title>
-        <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
-          <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
-            <TopText>Your Wishlist (0)</TopText>
-          </TopTexts>
-          <TopButton type="filled">CHECKOUT NOW</TopButton>
-        </Top>
-        <Bottom>
-          <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> JESSIE THUNDER SHOES
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 93813718293
-                  </ProductId>
-                  <ProductColor color="black" />
-                  <ProductSize>
-                    <b>Size:</b> 37.5
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 30</ProductPrice>
-              </PriceDetail>
-            </Product>
-            <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://i.pinimg.com/originals/2d/af/f8/2daff8e0823e51dd752704a47d5b795c.png" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> HAKURA T-SHIRT
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 93813718293
-                  </ProductId>
-                  <ProductColor color="gray" />
-                  <ProductSize>
-                    <b>Size:</b> M
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>1</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 20</ProductPrice>
-              </PriceDetail>
-            </Product>
-          </Info>
-          <Summary>
-            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-            <SummaryItem>
-              <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>$ 5.90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>$ -5.90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem type="total">
-              <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
-            </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
-          </Summary>
-        </Bottom>
-      </Wrapper>
-      <Footer />
-    </Container>
-  );
+  const [totalItemInCart, setTotal] = useState(0);
+  const [currentCart, setCurrentCart] = useState([]);
+  const [totalPriceInCart, setTotalPriceInCart] = useState(0);
+
+  var loginState = localStorage.getItem("isLogin");
+  var currentUserId = localStorage.getItem("currentUserId");
+  var getter = '/api/cart/' + currentUserId + "/";
+
+  const handleTotalItem = useCallback(() => {
+    let count = 0;
+    for (let i = 0; i < currentCart.length; i++)
+      count += currentCart[i].quantity;
+    setTotal(count);
+  }, [currentCart]);
+
+  useEffect(() => {
+    handleTotalItem();
+    axios.get(getter)
+    .then(response => {
+      setCurrentCart(response.data.items ? response.data.items : []);
+      setTotalPriceInCart(response.data.bill ? response.data.bill : 0);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }, [handleTotalItem, getter, totalItemInCart, currentCart, totalPriceInCart]); 
+
+  const numberWithDot = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  const handleCheckout = () => {
+    // Do not proceed
+    if (currentCart.length <= 0)
+      swal({
+        title: "Empty cart!",
+        text: "The cart is empty, please add some item before proceed!",
+        icon: 'warning',
+        dangerMode: true,
+      })
+    else
+      window.location.replace("/user/Checkout");
+  }
+
+  if (loginState === "true")
+    return (
+      <Container>
+        <Announcement />
+        <BannerCart /> 
+        <TopTexts><Link to="/">Home</Link> {'>'} <Link to="/user/cart">Cart</Link></TopTexts>
+        <Wrapper>
+          <Bottom>
+            <Info>
+              {currentCart.map((item) => (
+                <CartItem item = {item}/>
+              ))}
+              <Hr />
+            </Info>
+            <Summary>
+              <SummaryTitle>SUMMARY</SummaryTitle>
+              <SummaryItem>
+              <SummaryItemText>Items:</SummaryItemText>
+              <SummaryItemPrice>{totalItemInCart}</SummaryItemPrice>
+              </SummaryItem>
+              <SummaryItem type="total">
+                <SummaryItemText> Total </SummaryItemText>
+                <SummaryItemPrice> {numberWithDot(totalPriceInCart) + " VND"} </SummaryItemPrice>
+              </SummaryItem>
+                <Button onClick = {() => handleCheckout()}> PROCEED </Button>
+            </Summary>
+          </Bottom>
+        </Wrapper>
+        <Footer />
+      </Container>
+    );
+  else
+    return (
+      <Redirect to = "/user/login"/>
+    )
 };
 
 export default Cart;
