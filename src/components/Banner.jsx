@@ -102,7 +102,7 @@ const Banner = ({ onChange }) => {
                             style={{ textDecoration: "none" }}
                             to="/BlankPage"
                         >
-                            <Logo>BKP.</Logo>
+                            <Logo>BK FOOD</Logo>
                         </Link>
                     </Left>
                     <Center>
@@ -131,16 +131,6 @@ const Banner = ({ onChange }) => {
                     </Center>
 
                     <Right>
-                        <Link 
-                            to = "/AboutUs"
-                            style={{
-                                color: "inherit",
-                                textDecoration: "inherit"}}>
-                            <MenuItem>
-                                ABOUT US
-                            </MenuItem>
-                        </Link>
-
                         <MenuItem>
                             WELCOME, {localStorage.getItem("currentUserName")}!
                         </MenuItem>
@@ -212,15 +202,6 @@ const Banner = ({ onChange }) => {
                     </Center>
 
                     <Right>
-                        <Link 
-                            to = "/AboutUs"
-                            style={{
-                                color: "inherit",
-                                textDecoration: "inherit"}}>
-                            <MenuItem>
-                                ABOUT US
-                            </MenuItem>
-                        </Link>
 
                         <Link
                             to="/user/login"

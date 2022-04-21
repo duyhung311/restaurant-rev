@@ -7,7 +7,6 @@ import ProductDetail from "./ProductDetail";
 
 const Container = styled.div`
     height: 80%;
-    width: 95%;
     display: flex;
     flex-direction: row;
     padding: 40px;

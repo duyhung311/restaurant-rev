@@ -57,7 +57,7 @@ const Footer = () => {
                     to="/BlankPage"
                     onClick = {() => {window.scrollTo(0, 0);}}
                 >
-                    <Logo>BKP.</Logo>
+                    <Logo>BK FOOD</Logo>
                 </Link>
                 {/* <Desc>
                     The only perfume shop you need. Startup started in 2021 and growing strong.

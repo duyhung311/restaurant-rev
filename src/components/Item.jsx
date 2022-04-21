@@ -35,10 +35,10 @@ const ItemInfo = styled.div`
 `;
 
 const Container = styled.div`
-  flex: 3;
-  margin: 15px;
-  min-width: 280px;
-  height: 350px;
+  flex: 2;
+  margin: 15px ;
+  min-width: 120px;
+  height: 270px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,82 +78,39 @@ const Icon = styled.div`
 `;
 
 const Name = styled.div`
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
 `
 
 const Price = styled.div`
-  font-size: 12px;
-`
-const Brand = styled.div`
-  font-size: 14px;
+  font-size: 11px;
 `
 
-const ProductCard = ({ item, onChange }) => {
-  const addtoCart = () => {
-    if (localStorage.getItem("isLogin") !== "true"){
-      swal({
-        title: 'Failed!',
-        text: 'Please proceed to login before shopping!',
-        icon: 'warning',
-      })
-    }
-    else{
-      var currentUserId = localStorage.getItem("currentUserId");
-      var getter = "/api/cart/" + currentUserId + "/";
 
-      const body = JSON.stringify({
-        productId: item._id,
-        optionId: item.Option[0].OptionID,
-        quantity: 1
-      });
-      
-      axios
-        .post(getter, body, {
-          headers: { "Content-Type": "application/json" },
-        })
-        .then(() => {
-          // eslint-disable-next-line
-          let successText = "Added 1 of " + item.Name + " (" + item.Option[0].Volume + ") " + "to the cart";
-          swal({
-            title: 'Added to cart!',
-            text: successText,
-            icon: 'success',
-          })
-        })
-        .catch((error) => {
-          swal({
-            title: 'Something wrong!',
-            text: error,
-            icon: 'warning',
-            dangerMode: true,
-          })
-        });
-    }
-  };
-
+const Item = ({ item }) => {
   return (
     <Container>
       <Circle />
-      <Image src={item.image} />
+      <Image src={item.item_image} />
       <ItemInfo>
         <Name>
-          {item.restaurant}
+          {item.item}
         </Name>
-        <Brand>
-          {item.address}
-        </Brand> 
         <Price>
-          {item.rating}
+          {item.price}
         </Price>
       </ItemInfo> 
-      <Info>
+      {/* <Info>
+        <Icon onClick = {() => addtoCart()}>
+          <ShoppingCartOutlined/>
+        </Icon>
+
         <Icon onClick = {() => onChange(item)}>
             <SearchOutlined />
         </Icon>
-      </Info>     
+      </Info>      */}
     </Container>
   );
 };
 
-export default ProductCard;
+export default Item;

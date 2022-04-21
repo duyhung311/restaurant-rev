@@ -19,7 +19,6 @@ const ImgContainer = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  height: 90vh;
   object-fit: cover;
   ${mobile({ height: "40vh" })}
 `;
@@ -109,96 +108,94 @@ const AmountButton = styled.button`
 `;
 
 const ProductDetail = ({item, onUpdateCount}) => {
-    const [count, setCount] = useState(1);
-    const handleCount = (count) => {
-      if (count < 1){
-        swal({
-          title: 'Failed to reduce!',
-          text: 'Amount must be greater than 0!',
-          icon: 'warning',
-          dangerMode: true,
-        })
-        setCount(1);
-      }
-      else
-        setCount(count);
-    };
+  console.log(item.menu)
+    // const [count, setCount] = useState(1);
+    // const handleCount = (count) => {
+    //   if (count < 1){
+    //     swal({
+    //       title: 'Failed to reduce!',
+    //       text: 'Amount must be greater than 0!',
+    //       icon: 'warning',
+    //       dangerMode: true,
+    //     })
+    //     setCount(1);
+    //   }
+    //   else
+    //     setCount(count);
+    // };
 
-    const [option, setOption] = useState(item.Option[0]);
-    const handleOption = (id) => {
-        const optRet = item['Option'].filter((opt) => opt.OptionID === id);
-        setOption(optRet[0]);
-    }
+    // const [option, setOption] = useState(item.Option[0]);
+    // const handleOption = (id) => {
+    //     const optRet = item['Option'].filter((opt) => opt.OptionID === id);
+    //     setOption(optRet[0]);
+    // }
 
-    const addtoCart = (option, count) => {
-      if (localStorage.getItem("isLogin") !== "true"){
-        swal({
-          title: 'Failed!',
-          text: 'Please proceed to login before shopping!',
-          icon: 'warning',
-        })
-      }
-      else{
-        var currentUserId = localStorage.getItem("currentUserId");
-        var getter = "/api/cart/" + currentUserId + "/";
+    // const addtoCart = (option, count) => {
+    //   if (localStorage.getItem("isLogin") !== "true"){
+    //     swal({
+    //       title: 'Failed!',
+    //       text: 'Please proceed to login before shopping!',
+    //       icon: 'warning',
+    //     })
+    //   }
+    //   else{
+    //     var currentUserId = localStorage.getItem("currentUserId");
+    //     var getter = "/api/cart/" + currentUserId + "/";
     
-        const body = JSON.stringify({
-          productId: item._id,
-          optionId: option["OptionID"],
-          quantity: count
-        });
+    //     const body = JSON.stringify({
+    //       productId: item._id,
+    //       optionId: option["OptionID"],
+    //       quantity: count
+    //     });
         
-        console.log("item._id = " + item._id);
-        console.log("optionId = " + option["OptionID"]);
-        console.log("quantity = " + count);
+    //     console.log("item._id = " + item._id);
+    //     console.log("optionId = " + option["OptionID"]);
+    //     console.log("quantity = " + count);
 
-        axios
-          .post(getter, body, {
-            headers: { "Content-Type": "application/json" },
-          })
-          .then(() => {
-            // eslint-disable-next-line
-            let successText = "Added " + count + " of " + item.Name + " (" + option["Volume"] + ") " + "to the cart";
-            swal({
-              title: 'Added to cart!',
-              text: successText,
-              icon: 'success',
-            })
-          })
-          .catch((error) => {
-            swal({
-              title: 'Something wrong!',
-              text: error,
-              icon: 'warning',
-              dangerMode: true,
-            })
-          });
-      }
-    };
+    //     axios
+    //       .post(getter, body, {
+    //         headers: { "Content-Type": "application/json" },
+    //       })
+    //       .then(() => {
+    //         // eslint-disable-next-line
+    //         let successText = "Added " + count + " of " + item.Name + " (" + option["Volume"] + ") " + "to the cart";
+    //         swal({
+    //           title: 'Added to cart!',
+    //           text: successText,
+    //           icon: 'success',
+    //         })
+    //       })
+    //       .catch((error) => {
+    //         swal({
+    //           title: 'Something wrong!',
+    //           text: error,
+    //           icon: 'warning',
+    //           dangerMode: true,
+    //         })
+    //       });
+    //   }
+    // };
     
     return (
         <Container>
         <Wrapper>
             <ImgContainer>
-            <Image src= {item.Image} />
+            <Image src= {item.image} />
             </ImgContainer>
             <InfoContainer>
-            <Brand>{item.Brand}</Brand>
-            <Title>{item.Name}</Title>
-            <Price>{option['Price']}</Price>
-            <Option options = {item.Option} handleOptionChange = {handleOption}/>
-            <AddContainer>
+            <Title>{item.restaurant}</Title>
+            <Brand>{item.address}</Brand>
+            <Option menu = {item.menu}/>
+            {/* <AddContainer>
                 <AmountContainer>
-
                 <AmountButton onClick = {() => handleCount(count - 1)}>-</AmountButton>
                   <Amount>&nbsp;{count}&nbsp;</Amount>
                 <AmountButton onClick = {() => handleCount(count + 1)}>+</AmountButton>
-
                 </AmountContainer>
                 <Button onClick = {() => addtoCart(option, count)}>
                   Add to cart
                 </Button>
-            </AddContainer>
+            </AddContainer> */}
             </InfoContainer>
         </Wrapper>
         </Container>
